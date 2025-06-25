@@ -1,0 +1,27 @@
+# Dev Files
+#_weights/
+
+
+
+# Virtual Enviorements
+venv/
+.venv/
+env/
+.env/
+__pycache__/
+
+
+# IDE files
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.sqlite3
+*.log
+
+.vscode/
+.idea/
+
+# System files
+.DS_Store
+Thumbs.db
