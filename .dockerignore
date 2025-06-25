@@ -1,0 +1,41 @@
+# dev file
+venv_optimized/
+
+# Only include the model to be used
+onnx_models/*
+!onnx_models/yolo11s_balanced.onnx
+
+
+
+
+# Virtual EnvironmentS
+.venv/
+venv/
+env/
+
+# Python Bytecode and Cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+
+*.ipynb
+
+*.log
+logs/
+
+
+
+# IDE/editor settings
+.vscode/
+.idea/
+*.swp
+
+# Git metadata
+.git
+.gitignore
+
+# Test files
+tests/
+.pytest_cache/
