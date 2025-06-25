@@ -1,6 +1,5 @@
 import cv2
 from app.config import *
-from ultralytics.utils import ops
 from fastapi import HTTPException
 import numpy as np
 import base64
@@ -80,7 +79,7 @@ def postprocess_predictions(model_output, original_shape, letterboxed_shape):
     boxes_np = np.array(boxes)
 
     # Scale the boxes to the original image size
-    scaled_boxes = ops.scale_boxes(
+    scaled_boxes = scale_boxes(
         img1_shape=letterboxed_shape, # (h,w)
         boxes=boxes_np,               # NMS boxes
         img0_shape=original_shape     # (h, w)
@@ -176,3 +175,48 @@ def draw_and_encode_image(original_image_bytes, processed_predictions):
         "objects": processed_predictions,
         "count": len(processed_predictions)
     }
+
+
+
+
+
+
+
+# Letterbox proprecess helpers:
+
+# Reimplemented to reduce dependency on `ultralytics.utils.ops`
+# Original logic inspired by Ultralytics but rewritten for independence.
+def clip_boxes(boxes, shape):
+    """Clip bounding boxes to image boundaries."""
+    boxes[..., [0, 2]] = np.clip(boxes[..., [0, 2]], 0, shape[1])  # x1, x2
+    boxes[..., [1, 3]] = np.clip(boxes[..., [1, 3]], 0, shape[0])  # y1, y2
+    return boxes
+
+
+def scale_boxes(img1_shape, boxes, img0_shape):
+    """
+    Rescale bounding boxes from one image shape to another.
+    Assumes padding=True and box format=xyxy.
+
+    Args:
+        img1_shape (tuple): Source image shape (height, width)
+        boxes (np.ndarray): Bounding boxes (N, 4)
+        img0_shape (tuple): Target/original image shape (height, width)
+
+    Returns:
+        np.ndarray: Rescaled and clipped bounding boxes
+    """
+    gain = min(img1_shape[0] / img0_shape[0], img1_shape[1] / img0_shape[1])
+    pad = (
+        round((img1_shape[1] - img0_shape[1] * gain) / 2 - 0.1),
+        round((img1_shape[0] - img0_shape[0] * gain) / 2 - 0.1),
+    )
+
+    # boxes = boxes.copy().astype(np.float32)
+
+    boxes[..., 0] -= pad[0]  # x padding
+    boxes[..., 1] -= pad[1]  # y padding
+    boxes[..., 2] -= pad[0]  # x padding
+    boxes[..., 3] -= pad[1]  # y padding
+    boxes[..., :4] /= gain
+    return clip_boxes(boxes, img0_shape)
