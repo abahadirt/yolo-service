@@ -1,4 +1,4 @@
-# SETUP
+# SETUP:
 
 
 ### Clone the repository
@@ -17,7 +17,7 @@ docker build -t yolo-onnx-service .
 docker run -d -p 8000:8000 --name yolo_app yolo-onnx-service  
 docker logs yolo_app
 ```
-
+to test endpoints: http://localhost:8000/docs
 
 ## Development setup in optimize-docker branch:
 
@@ -28,8 +28,9 @@ python -m venv venv_optimized
 # For Windows:
 venv_optimized\Scripts\activate
 pip install -r requirements.txt
+uvicorn app.main:app
 ```
 ## ..
 
 
-#  Project description is available in the `development` branch.
+##  Project description is available in the `development` branch.
