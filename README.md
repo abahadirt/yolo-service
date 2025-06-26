@@ -29,3 +29,7 @@ python -m venv venv_optimized
 venv_optimized\Scripts\activate
 pip install -r requirements.txt
 ```
+## ..
+
+
+#  Project description is available in the `development` branch.
