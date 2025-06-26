@@ -29,6 +29,10 @@ Move-Item -Path "_weights\yolo11s.onnx" -Destination "onnx_models\yolo11s_balanc
 
 + ...
 
+(The simplification process can be further improved.
+Libraries like onnxruntime are still suitable for reduction — removing them along with their dependencies could save approximately 150 MB.)
+
+
 ## Design Decisions:
 
 The letterbox function in preprocessing_utils significantly improves model confidence.
@@ -41,6 +45,7 @@ Therefore, if the project is going to be released, the decision to use letterbox
 
 #### Example of a directly resized image without letterbox:
 <img width="640" alt="resized" src="https://github.com/user-attachments/assets/325d7548-ae93-45b5-a4f5-86ef35717c4d" />
+
 
 
 
